@@ -24,26 +24,26 @@ gvcf="${sample}.chr21.g.vcf.gz"
 vcf="${sample}.chr21.vcf.gz"
 ann_vcf="${sample}.chr21.ann.vcf.gz"
 #MAPPING
-#${BWA} mem -t 1 -R "@RG\tID:sample\tSM:sample\tPL:platform" ${REFERENCE} ${fq1} ${fq2} > ${mapped_sam}
+${BWA} mem -t 1 -R "@RG\tID:sample\tSM:sample\tPL:platform" ${REFERENCE} ${fq1} ${fq2} > ${mapped_sam}
 
 # Change Bam
-#${SAMTOOL} view -Sb ${mapped_sam} > ${mapped_bam}
+${SAMTOOL} view -Sb ${mapped_sam} > ${mapped_bam}
 
 # Bam Sort 
-#${SAMTOOL} sort ${mapped_bam} -o ${sort_bam}
+${SAMTOOL} sort ${mapped_bam} -o ${sort_bam}
 
 #BAM file INDEXING
-#${SAMTOOL} index ${sort_bam}
+${SAMTOOL} index ${sort_bam}
 
 #PICARD - markdup
-#java -jar ${PICARD} MarkDuplicates -I ${sort_bam} -O ${markdup_bam} -M ${sample}.metrics.txt
+java -jar ${PICARD} MarkDuplicates -I ${sort_bam} -O ${markdup_bam} -M ${sample}.metrics.txt
 
 #BAM file indexing 
-#${SAMTOOL} index ${markdup_bam}
+${SAMTOOL} index ${markdup_bam}
 
 #GATK
-#java -jar ${GATK} HaplotypeCaller -I ${markdup_bam} -O ${gvcf} -R ${REFERENCE} -ERC GVCF 
-#java -jar ${GATK} GenotypeGVCFs -V ${gvcf} -O ${vcf} -R ${REFERENCE}
+java -jar ${GATK} HaplotypeCaller -I ${markdup_bam} -O ${gvcf} -R ${REFERENCE} -ERC GVCF 
+java -jar ${GATK} GenotypeGVCFs -V ${gvcf} -O ${vcf} -R ${REFERENCE}
 
 #SNPEff
 
